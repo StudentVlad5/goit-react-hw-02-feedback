@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import nextId from "react-id-generator";
 import Notiflix from 'notiflix';
+import NotificationMessage from '../NoFeedbackMassage/NoFeedbackMassage'
 import css from "./WidgetFeedback.module.css";
 
 
@@ -84,7 +85,7 @@ render()
             Please leave feedback: <div className={css.btnContainer}> {this.addButtons()}</div>
         </div>
         <div className={css.statisticContainer}> Statistics:  {this.statistics()}</div> 
-        {!this.sumOfVoice && 'No Feedback Yet'}          
+        {!this.sumOfVoice && <NotificationMessage/>}          
         {this.sumOfVoice>0 && this.countFeedback()} 
         {this.countPositiveFeedbackPercentage()}
     </div>

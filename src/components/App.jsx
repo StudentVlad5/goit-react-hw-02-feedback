@@ -1,4 +1,5 @@
 import WidgetFeedback from "./WidgetFeedback/WidgetFeedback";
+
 export const App = () => {
   return (
     <div
