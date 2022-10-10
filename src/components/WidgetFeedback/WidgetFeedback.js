@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import propTypes from 'prop-types';
 import nextId from "react-id-generator";
 import Notiflix from 'notiflix';
 import NotificationMessage from '../NoFeedbackMassage/NoFeedbackMassage'
@@ -93,3 +94,9 @@ render()
 }
 
 export default WidgetFeedback;
+
+WidgetFeedback.propTypes = {
+    state: propTypes.arrayOf(
+        propTypes.number
+    )
+  }
