@@ -1,8 +1,9 @@
 import React, {Component} from "react";
 import propTypes from 'prop-types';
-import nextId from "react-id-generator";
 import Notiflix from 'notiflix';
-import NotificationMessage from '../NoFeedbackMassage/NoFeedbackMassage'
+import NotificationMessage from '../NoFeedbackMassage/NoFeedbackMassage';
+import Statistics from '../Statistics/Statistics';
+import AddButtons from '../AddButtons/AddButtons';
 import css from "./WidgetFeedback.module.css";
 
 
@@ -14,28 +15,7 @@ class WidgetFeedback extends Component {
             neutral: 0,
             bad: 0,
           };
-          nextId(); 
     }
-checkBgrColor = (item) => {
-        if(item === 'good'){return 'green'}
-        else if(item === 'neutral'){return 'tomato'}
-        else if(item === 'bad'){return 'black'}
-        else {return 'red'}
-    }
-
-addButtons = () => {
-    let countOfButton = Object.keys(this.state);
-    return countOfButton.map(item => 
-   <button key={nextId()} name = {item} className = {css.pressBtn} style={{
-    backgroundColor: this.checkBgrColor(item),
-   }} onClick={(event)=>{this.FeedbackCounter(event);this.cloneTotalFeedback(event); this.countFeedback(this.clone)}} >{item[0].toUpperCase()+item.slice(1,item.length)}</button>);  
-}
-
-statistics = () => {
-    let countOfButton = Object.keys(this.state);
-    return  countOfButton.map(item =>   
-    <span className={css.statValue}style={{fontSize : "24px"}} key={nextId()}>{item[0].toUpperCase()+item.slice(1,item.length)} : {this.state[item]}</span>);  
-}
 
 cloneTotalFeedback = (event) =>{
      let eventName = event.target.name;
@@ -54,16 +34,10 @@ countFeedback = () =>{
     for (let key in this.clone) {
         this.sumOfVoice += this.clone[key];
       }
-let  totalCount = `Total Voices: `+ this.sumOfVoice;
- return <div className={css.countFeedbackContainer}>{totalCount}</div>
+ return this.sumOfVoice
 }
 
-countPositiveFeedbackPercentage = () =>{
-    if(this.sumOfVoice>0)
-    return <div className={css.countFeedbackContainer}>Positive Feedback: {Math.round(this.state.good/this.sumOfVoice*100)}%</div>
-}
-
-FeedbackCounter = (event) =>{
+feedbackCounter = (event) =>{
     let eventName = event.target.name;
     if(eventName === 'good'){
         Notiflix.Notify.success('So happy your high rating');
@@ -80,15 +54,16 @@ FeedbackCounter = (event) =>{
     }
 
 render()
-{return (
-    <div className={css.widgetFeedbackContainer} key={this.htmlId}>
-        <div className={css.countContainer}>
-            Please leave feedback: <div className={css.btnContainer}> {this.addButtons()}</div>
-        </div>
-        <div className={css.statisticContainer}> Statistics:  {this.statistics()}</div> 
+{
+    let countOfButton = Object.keys(this.state);
+    let state = this.state; 
+
+    return (
+        <div className={css.widgetFeedbackContainer} key={this.htmlId}>
+        <AddButtons countOfButton={countOfButton} state={state} feedbackCounter = {this.feedbackCounter} cloneTotalFeedback = {this.cloneTotalFeedback} countFeedback={this.countFeedback}/>
+        {this.sumOfVoice>0 && <Statistics  countOfButton={countOfButton} state={state} totalCount={this.sumOfVoice}/>}
         {!this.sumOfVoice && <NotificationMessage/>}          
-        {this.sumOfVoice>0 && this.countFeedback()} 
-        {this.countPositiveFeedbackPercentage()}
+
     </div>
 )}
 }
