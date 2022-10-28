@@ -17,41 +17,38 @@ class WidgetFeedback extends Component {
           };
     }
 
-cloneTotalFeedback = (event) =>{
+TotalFeedback = (event) =>{
      let eventName = event.target.name;
      this.clone = {};
      for (let key in this.state) {
         this.clone[key] = this.state[key];
-      }
-        if(eventName === 'good'){ this.clone.good = this.clone.good + 1}
-        else if (eventName === 'neutral'){this.clone.neutral = this.clone.neutral + 1}
-        else if (eventName === 'bad'){this.clone.bad = this.clone.bad + 1};
+      };
+      this.clone[eventName] = this.clone[eventName] + 1;
+      this.setState((prevState)=> ({ 
+        [eventName]: prevState[eventName] + 1 
+     }));
     return this.clone
 }
 
 countFeedback = () =>{
     this.sumOfVoice = 0;
+    console.log(this.clone);
+    console.log(this.state);
     for (let key in this.clone) {
         this.sumOfVoice += this.clone[key];
       }
  return this.sumOfVoice
 }
 
-feedbackCounter = (event) =>{
+feedbackMessage = (event) =>{
     let eventName = event.target.name;
     if(eventName === 'good'){
-        Notiflix.Notify.success('So happy your high rating');
-        return this.setState((prevStay)=>{
-        return {good : prevStay.good + 1}})}
+        Notiflix.Notify.success('So happy your high rating')}
     else if (eventName === 'neutral'){
-        Notiflix.Notify.warning('Promise to get better');
-        return this.setState((prevStay)=>{
-        return {neutral : prevStay.neutral + 1}})}   
+        Notiflix.Notify.warning('Promise to get better')}
     else if (eventName === 'bad'){
         Notiflix.Notify.failure('We apologize for the inconvenience')
-        return this.setState((prevStay)=>{
-        return {bad : prevStay.bad + 1}})};
-    }
+    }}
 
 render()
 {
@@ -60,7 +57,7 @@ render()
 
     return (
         <div className={css.widgetFeedbackContainer} key={this.htmlId}>
-        <AddButtons countOfButton={countOfButton} state={state} feedbackCounter = {this.feedbackCounter} cloneTotalFeedback = {this.cloneTotalFeedback} countFeedback={this.countFeedback}/>
+        <AddButtons countOfButton={countOfButton} state={state} feedbackMessage = {this.feedbackMessage} TotalFeedback = {this.TotalFeedback} countFeedback={this.countFeedback}/>
         {this.sumOfVoice>0 && <Statistics  countOfButton={countOfButton} state={state} totalCount={this.sumOfVoice}/>}
         {!this.sumOfVoice && <NotificationMessage/>}          
 

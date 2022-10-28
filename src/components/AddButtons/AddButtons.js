@@ -9,11 +9,11 @@ const checkBgrColor = (item) => {
     else {return 'red'}
 }
 
-const AddButtons =({countOfButton, state, feedbackCounter, cloneTotalFeedback, countFeedback})=>{ 
+const AddButtons =({countOfButton, state, feedbackMessage, TotalFeedback, countFeedback})=>{ 
     return (<div className={css.countContainer}>
             Please leave feedback: <div className={css.btnContainer}>{countOfButton.map(item => 
             <button key={nextId()} name = {item} className = {css.pressBtn} style={{ backgroundColor: checkBgrColor(item),
-            }} onClick={(event)=>{feedbackCounter(event);cloneTotalFeedback(event); countFeedback(state)}} >{item[0].toUpperCase()+item.slice(1,item.length)}</button>)}</div></div>)}
+            }} onClick={(event)=>{feedbackMessage(event);TotalFeedback(event); countFeedback(state)}} >{item[0].toUpperCase()+item.slice(1,item.length)}</button>)}</div></div>)}
 
 export default AddButtons;
 
@@ -21,6 +21,6 @@ AddButtons.propTypes = {
     countOfButton: propTypes.arrayOf(
         propTypes.string),
     state: propTypes.object,
-    feedbackCounter: propTypes.func,
-    cloneTotalFeedback: propTypes.func,
+    feedbackMessage: propTypes.func,
+    TotalFeedback: propTypes.func,
   }
