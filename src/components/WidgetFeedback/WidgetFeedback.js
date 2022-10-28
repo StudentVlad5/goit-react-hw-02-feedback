@@ -32,8 +32,8 @@ TotalFeedback = (event) =>{
 
 countFeedback = () =>{
     this.sumOfVoice = 0;
-    console.log(this.clone);
-    console.log(this.state);
+    console.log('from clone',this.clone);
+    console.log('from state',this.state);
     for (let key in this.clone) {
         this.sumOfVoice += this.clone[key];
       }
