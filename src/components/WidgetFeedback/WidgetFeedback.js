@@ -19,25 +19,10 @@ class WidgetFeedback extends Component {
 
 TotalFeedback = (event) =>{
      let eventName = event.target.name;
-     this.clone = {};
-     for (let key in this.state) {
-        this.clone[key] = this.state[key];
-      };
-      this.clone[eventName] = this.clone[eventName] + 1;
+     this.sumOfVoice = this.state.good + this.state.bad + this.state.neutral + 1;
       this.setState((prevState)=> ({ 
         [eventName]: prevState[eventName] + 1 
      }));
-    return this.clone
-}
-
-countFeedback = () =>{
-    this.sumOfVoice = 0;
-    console.log('from clone',this.clone);
-    console.log('from state',this.state);
-    for (let key in this.clone) {
-        this.sumOfVoice += this.clone[key];
-      }
- return this.sumOfVoice
 }
 
 feedbackMessage = (event) =>{
@@ -57,7 +42,7 @@ render()
 
     return (
         <div className={css.widgetFeedbackContainer} key={this.htmlId}>
-        <AddButtons countOfButton={countOfButton} state={state} feedbackMessage = {this.feedbackMessage} TotalFeedback = {this.TotalFeedback} countFeedback={this.countFeedback}/>
+        <AddButtons countOfButton={countOfButton} state={state} feedbackMessage = {this.feedbackMessage} TotalFeedback = {this.TotalFeedback}/>
         {this.sumOfVoice>0 && <Statistics  countOfButton={countOfButton} state={state} totalCount={this.sumOfVoice}/>}
         {!this.sumOfVoice && <NotificationMessage/>}          
 
